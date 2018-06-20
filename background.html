@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>123</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script>
+        //Called when user clicks on the browser action
+        chrome.browserAction.onClicked.addListener(function (tab) {
+            // Send a message to the active tab
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            }, function (tabs) {
+                var activeTab = tabs[0];
+                chrome.tabs.sendMessage(activeTab.id, {
+                    "message": "clicked_browser_action"
+                });
+            });
+        });
+
+        searchUrbanDict = function (info, tab) {
+            var url = info.srcUrl
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            }, function (tabs) {
+                var activeTab = tabs[0];
+                chrome.tabs.sendMessage(activeTab.id, {
+                    "message": "context_clicked",
+                    "url": url
+                });
+            });
+        };
+
+        chrome.contextMenus.create({
+            title: "Search in UrbanDictionary",
+            contexts: ["image"], // ContextType
+            onclick: searchUrbanDict // A callback function
+        });
+    </script>
+</head>
+
+<body>
+<script>
+    //Called when user clicks on the browser action
+chrome.browserAction.onClicked.addListener(function (tab) {
+    // Send a message to the active tab
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        var activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, {
+            "message": "clicked_browser_action"
+        });
+    });
+});
+
+searchUrbanDict = function(info, tab){
+    var url = info.srcUrl
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        var activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, {
+            "message": "context_clicked",
+            "url" : url
+        });
+    });
+ };
+
+chrome.contextMenus.create({
+ title: "Search in UrbanDictionary",
+ contexts:["image"],  // ContextType
+ onclick: searchUrbanDict // A callback function
+});
+</script>
+</body>
+
+</html>
